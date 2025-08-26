@@ -1,34 +1,39 @@
-<phpunit
-    backupGlobals="true"
-    backupStaticAttributes="false"
-    bootstrap="bootstrap.php"
-    cacheTokens="false"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    forceCoversAnnotation="false"
-    mapTestClassNameToCoveredClassName="false"
-    processIsolation="false"
-    stopOnError="true"
-    stopOnFailure="true"
-    stopOnIncomplete="true"
-    stopOnSkipped="true"
-    stopOnRisky="true"
-    timeoutForSmallTests="1"
-    timeoutForMediumTests="10"
-    timeoutForLargeTests="60"
-    verbose="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         stopOnRisky="false"
+         timeoutForSmallTests="1"
+         timeoutForMediumTests="10"
+         timeoutForLargeTests="60"
+         verbose="true">
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage processUncoveredFiles="true">
+        <include>
             <directory suffix=".php">../../src</directory>
-            <exclude>
-                <directory suffix="Launcher.php">../../src/PAMI/Application</directory>
-                <directory suffix=".php">../../vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <directory suffix="Launcher.php">../../src/PAMI/Application</directory>
+            <directory suffix=".php">../../vendor</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="../../build/coverage-html"/>
+            <clover outputFile="../../build/logs/clover.xml"/>
+        </report>
+    </coverage>
+    
     <testsuites>
         <testsuite name="Client">
           <directory suffix=".php">../client</directory>
@@ -40,8 +45,4 @@
             <directory suffix=".php">../events</directory>
         </testsuite>
     </testsuites>
-    <logging>
-        <log type="coverage-html" target="../../build/coverage-html"/>
-        <log type="coverage-clover" target="../../build/logs/clover.xml"/>
-    </logging>
 </phpunit>
