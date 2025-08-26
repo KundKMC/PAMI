@@ -27,7 +27,6 @@
  * limitations under the License.
  *
  */
-
 namespace PAMI\Message\Response;
 
 use PAMI\Message\Message;
@@ -95,9 +94,9 @@ class ResponseMessage extends IncomingMessage
     public function addEvent(EventMessage $event)
     {
         $this->events[] = $event;
-        if ($event->getEventList() && $event->getName() && (stristr($event->getEventList(), 'complete') !== false
-                || stristr($event->getName(), 'complete') !== false
-                || stristr($event->getName(), 'DBGetResponse') !== false)
+        if (stristr($event->getEventList(), 'complete') !== false
+            || stristr($event->getName(), 'complete') !== false
+            || stristr($event->getName(), 'DBGetResponse') !== false
         ) {
             $this->completed = true;
         }
@@ -132,12 +131,10 @@ class ResponseMessage extends IncomingMessage
      */
     public function isList()
     {
-        if ($this->getKey('EventList') && $this->getMessage())
-            return
-                stristr($this->getKey('EventList'), 'start') !== false
-                || stristr($this->getMessage(), 'follow') !== false;
-        else
-            return false;
+        return
+            stristr($this->getKey('EventList'), 'start') !== false
+            || stristr($this->getMessage(), 'follow') !== false
+        ;
     }
 
     /**

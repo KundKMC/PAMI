@@ -6,4 +6,4 @@ vendor
 build
 docs/examples/quickstart/log.log
 resources/php.ini
-
+/.idea/*
