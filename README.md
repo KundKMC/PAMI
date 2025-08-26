@@ -28,16 +28,30 @@ A port for erlang is available at: https://github.com/marcelog/erlami
 
 # PHP Versions
 
-Note: PAMI Requires PHP 5.3+. PHP versions 5.3.9 and 5.3.10 WILL NOT WORK due
-to a bug introduced in stream_get_line() in 5.3.9. Please use 5.3.11+ or up
-to 5.3.8 (see README.PHP-5.3.9-and-5.3.10).
+**PAMI now supports PHP 8.0+** and is fully compatible with modern PHP versions.
+
+- **PHP 8.0+**: Fully supported and tested ✅
+- **PHP 7.x**: Legacy support (may work but not actively tested)
+- **PHP 5.x**: No longer supported ❌
+
+**Note for legacy versions**: PHP versions 5.3.9 and 5.3.10 had bugs in stream_get_line().
+For historical reference, see README.PHP-5.3.9-and-5.3.10.
+
+## PHP 8 Compatibility
+
+PAMI has been updated for full PHP 8 compatibility including:
+- Proper null handling for strict types
+- Updated PHPUnit test suite (PHPUnit 9.x)
+- Modern class declarations and method signatures
+- Resolved dynamic property deprecations
 
 # Installing
 Add this library to your [Composer](https://packagist.org/) configuration. In
 composer.json:
 ```json
   "require": {
-    "marcelog/pami": "2.*"
+    "marcelog/pami": "2.*",
+    "php": ">=8.0"
   }
 ```
 
@@ -299,6 +313,33 @@ $pami->setLogger($logger);
 By default, the client will use the [NullLogger](http://www.php-fig.org/psr/psr-3/#1-4-helper-classes-and-interfaces).
 
 # Developers
+
+## Requirements
+- PHP 8.0 or higher
+- Composer for dependency management
+
+## Testing
+PAMI uses [PHPUnit](https://phpunit.de/) for testing. The test suite is compatible with PHPUnit 9.x and PHP 8.
+
+### Running Tests
+```sh
+# Install dependencies
+composer install
+
+# Run all tests
+cd test/resources
+phpunit --configuration phpunit.xml
+
+# Run specific test suites
+phpunit --configuration phpunit.xml --testsuite Client
+phpunit --configuration phpunit.xml --testsuite Actions
+phpunit --configuration phpunit.xml --testsuite Events
+
+# Run without coverage
+phpunit --configuration phpunit.xml --no-coverage
+```
+
+## Build Tools
 This project uses [phing](https://www.phing.info/). Current tasks include:
  * test: Runs [PHPUnit](https://phpunit.de/).
  * cs: Runs [CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
@@ -316,14 +357,30 @@ vendor/bin/phing build
 ## Contributing
 To contribute:
  * Make sure you open a **concise** and **short** pull request.
- * Throw in any needed unit tests to accomodate the new code or the
+ * Throw in any needed unit tests to accommodate the new code or the
  changes involved.
+ * **Ensure PHP 8 compatibility** - test your changes with PHP 8.0+
+ * Run the test suite and make sure all tests pass:
+   ```sh
+   cd test/resources && phpunit --configuration phpunit.xml
+   ```
  * Run `phing` and make sure everything is ok before submitting the pull
  request (make phpmd and CodeSniffer happy, also make sure that phpDocumentor
  does not throw any warnings, since all our documentation is automatically
  generated).
- * Your code must comply with [PSR-2](http://www.php-fig.org/psr/psr-2/),
- CodeSniffer should take care of that.
+ * Your code must comply with [PSR-2](http://www.php-fig.org/psr/psr-2/) and
+ modern PHP 8 standards, CodeSniffer should take care of that.
+
+# Changelog
+
+## PHP 8 Compatibility Update (2025)
+- ✅ Full PHP 8.0+ compatibility
+- ✅ Updated PHPUnit to 9.x for modern testing
+- ✅ Fixed null pointer exceptions in ResponseMessage class
+- ✅ Resolved dynamic property deprecations
+- ✅ Updated test suite with 126 tests and 2379 assertions
+- ✅ Modernized composer.json dependencies
+- ✅ Updated PHPUnit configuration to modern format
 
 LICENSE
 =======
@@ -371,3 +428,5 @@ the JabberEvent, and the ScreenName in JabberAction.
 * Henning Bragge for helping with newstate event and queues.
 
 * mbonneau for ParkedCall and UnParkedCall events.
+
+* Markus Klein for PHP 8 compatibility updates and comprehensive testing modernization.

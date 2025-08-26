@@ -289,12 +289,11 @@ class ClientImpl implements IClient
                 $bMsg .= 'ActionId: ' . $this->lastActionId . "\r\n" . $aMsg;
                 $event = $this->messageToEvent($bMsg);
                 $response = $this->findResponse($event);
-// MKL FIX
-                   if ($response !== false && !$response->isComplete()) {
-                         $response->addEvent($event);
-                   } else {
-                     $this->dispatch($event);
-                    }
+                if ($response === false || $response->isComplete()) {
+                    $this->dispatch($event);
+                } else {
+                    $response->addEvent($event);
+                }
 
             }
             $this->logger->debug('----------------');
